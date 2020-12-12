@@ -16,6 +16,21 @@ import static android.view.View.GONE;
 
 public class WordAdapter extends ArrayAdapter<Word> {
 
+    MediaPlayer mediaPlayer = new MediaPlayer();
+
+    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            if (mediaPlayer != null) {
+
+                mediaPlayer.release();
+
+                mediaPlayer = null;
+            }
+        }
+        };
+
+
     public WordAdapter(Activity context, ArrayList<Word> wordArrayList){
         super(context, 0, wordArrayList);
     }
@@ -23,7 +38,6 @@ public class WordAdapter extends ArrayAdapter<Word> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
 
 
 
@@ -54,14 +68,30 @@ public class WordAdapter extends ArrayAdapter<Word> {
             imageView.setVisibility(GONE);
         }
 
-
             listItemView.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
 
-                MediaPlayer mediaPlayer = MediaPlayer.create(getContext(),currentWord.getAudio());
+
+                if (mediaPlayer != null) {
+                    // Regardless of the current state of the media player, release its resources
+                    // because we no longer need it.
+                    mediaPlayer.release();
+
+                    // Set the media player back to null. For our code, we've decided that
+                    // setting the media player to null is an easy way to tell that the media player
+                    // is not configured to play an audio file at the moment.
+                    mediaPlayer = null;
+                }
+
+                mediaPlayer = MediaPlayer.create(getContext(),currentWord.getAudio());
                 mediaPlayer.start();
+
+                mediaPlayer.setOnCompletionListener(mCompletionListener);
+
+
             }
             });
+
 
 
         return listItemView;
