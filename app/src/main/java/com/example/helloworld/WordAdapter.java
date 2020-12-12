@@ -11,12 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import java.util.ArrayList;
-
 import static android.view.View.GONE;
 
 public class WordAdapter extends ArrayAdapter<Word> {
 
-    MediaPlayer mediaPlayer = new MediaPlayer();
+    public MediaPlayer mediaPlayer = new MediaPlayer();
 
     private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
@@ -96,4 +95,6 @@ public class WordAdapter extends ArrayAdapter<Word> {
 
         return listItemView;
     }
+
+
 }

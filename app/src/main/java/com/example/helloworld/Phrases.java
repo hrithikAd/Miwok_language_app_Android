@@ -35,4 +35,6 @@ public class Phrases extends AppCompatActivity {
 
         listView.setAdapter(adapter);
     }
+
+
 }
